@@ -16,6 +16,7 @@ dependencies:
   - backports.functools_lru_cache=1.6.4=pyhd8ed1ab_0
   - bcrypt=3.2.2=py310h90acd4f_1
   - beautifulsoup4=4.12.2=pyha770c72_0
+  - black=23.3.0=py310h2ec42d9_1
   - bleach=6.0.0=pyhd8ed1ab_0
   - blinker=1.6.2=pyhd8ed1ab_0
   - blosc=1.21.2=hebb52c4_0
@@ -161,6 +162,7 @@ dependencies:
   - mlflow=1.2.0=py_1
   - munch=2.5.0=py_0
   - munkres=1.1.4=pyh9f0ad1d_0
+  - mypy_extensions=1.0.0=pyha770c72_0
   - nbclassic=0.5.6=pyh8b2e9e2_0
   - nbclient=0.7.4=pyhd8ed1ab_0
   - nbconvert-core=7.3.1=pyhd8ed1ab_0
@@ -182,6 +184,7 @@ dependencies:
   - pandocfilters=1.5.0=pyhd8ed1ab_0
   - paramiko=3.1.0=pyhd8ed1ab_0
   - parso=0.8.3=pyhd8ed1ab_0
+  - pathspec=0.11.1=pyhd8ed1ab_0
   - patsy=0.5.3=pyhd8ed1ab_0
   - pcre2=10.40=h1c4e4bc_0
   - pexpect=4.8.0=pyh1a96a4e_2
