@@ -2,8 +2,6 @@ import pandas as pd
 import glob
 import os
 
-import itertools
-
 
 def combine_csv(str_path):
     """
