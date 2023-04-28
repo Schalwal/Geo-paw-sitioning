@@ -39,7 +39,7 @@ def combine_csv(str_path):
 
     
 
-df_land_prices = combine_csv(input("Please copy + paste path to land prices: ").replace("\\", "/"))
-df_zensus = combine_csv(input("Please copy + paste path to land prices: ").replace("\\", "/"))
+# df_land_prices = combine_csv(input("Please copy + paste path to land prices: ").replace("\\", "/"))
+# df_zensus = combine_csv(input("Please copy + paste path to land prices: ").replace("\\", "/"))
 
 #df_land_prices["Area_Types"].str.split("_", expand = True).value_counts()
