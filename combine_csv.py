@@ -58,9 +58,14 @@ def combine_csv(str_path):
 
     
 if __name__ == "__main__":
-    df_land_prices = combine_csv(
+    main_path = os.getcwd()
+    df_land_prices = combine_csv( main_path + "/" +
         input("Please copy + paste path to land prices: ").replace("\\", "/")
     )
-    df_zensus = combine_csv(
+    df_zensus = combine_csv( main_path + "/" +
         input("Please copy + paste path to zensus data: ").replace("\\", "/")
     )
+
+    df_land_prices.to_csv(main_path + "/res/data/land_prices.csv")
+    df_zensus.to_csv(main_path + "/res/data/zensus.csv")
+    
