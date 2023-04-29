@@ -34,6 +34,9 @@ def combine_csv(str_path):
 
             df_combined[col] = 0
 
+        # Splitting Area types by underscore and create a column per unique area type
+        # Count for each row dependend on splitted area type
+
         df_categories_raw = df_combined["Area_Types"].str.split("_", expand = True)
 
         for i in range(len(df_combined)):
@@ -74,12 +77,17 @@ def PCA_zensus_data(df_zensus, str_city, str_zensus_source):
 
     Returns DataFrame with important factors with highest explained variance in single datasets
     """
+    # Filter Dataset by city and source
 
     df_zensus_filtered_city_source = df_zensus[(df_zensus["City"] == str_city) & (df_zensus["zensus_source"] == str_zensus_source)].dropna(axis = 1).reset_index(drop = True)
 
     df_zensus_filtered = df_zensus_filtered_city_source.drop(columns = ["Grid_Code", "City", "zensus_source"])
 
+    # Normalizing Data
+
     df_zensus_filtered_scaled = pd.DataFrame(preprocessing.scale(df_zensus_filtered),columns = df_zensus_filtered.columns) 
+
+    # Calculate PCA by including all components that cover 95% of the explained variance of the dataset
 
     pca_95 = PCA(n_components = 0.95, random_state = 2023)
     pca_95.fit(df_zensus_filtered_scaled)
@@ -91,11 +99,11 @@ def PCA_zensus_data(df_zensus, str_city, str_zensus_source):
     most_important = [np.abs(pca_95.components_[i]).argmax() for i in range(n_pcs)]
     initial_feature_names = df_zensus_filtered_scaled.columns.tolist()
 
-    # get the names
+    # get the names for each component
     most_important_names = [initial_feature_names[most_important[i]] for i in range(n_pcs)]
     dic = {'PC{}'.format(i): most_important_names[i] for i in range(n_pcs)}
 
-    # build the dataframe
+    # Build the final dataframe
     df_important_features = pd.DataFrame(dic.items()).rename(columns = {0 : "components", 1 : "features"})
     df_important_features["explained_variance"] = pca_95.explained_variance_ratio_ * 100
     df_important_features = df_important_features[["features", "explained_variance"]].groupby("features").sum().sort_values(by = "explained_variance", ascending = False).reset_index()
@@ -120,6 +128,8 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
 
     ls_pca_cleaned_zensus_data_city = []
     
+    # Filter original zensus Dataframe by only looking at the columns that are relevant due to the PCA
+
     for source in ls_zensus_sources:
         
         df_zensus_filtered_city_source_original, important_features_city_source = PCA_zensus_data(df_zensus, str_city, source)
@@ -131,6 +141,7 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
 
         ls_pca_cleaned_zensus_data_city.append(df_zensus_filtered_city_source)
 
+    # combine with geodata
     
     df_cleaned = ft.reduce(lambda left, right: pd.merge(left, right, on = ['City', 'Grid_Code']), ls_pca_cleaned_zensus_data_city)
 
@@ -140,6 +151,10 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
     return zensus_grid
 
 def combine_landprice_with_geodata(df_landprice, str_city, str_path):
+
+    """
+    takes the original landprice dataframe form the combine_csv function, filter it by city and connect it to the geospatial data
+    """
 
     os.chdir(str_path)
 
