@@ -1,10 +1,12 @@
-from sklearn import preprocessing
-from sklearn.decomposition import PCA
+import os
 
 import pandas as pd
-import os
+import geopandas as gpd
 import numpy as np
 import functools as ft
+
+from sklearn import preprocessing
+from sklearn.decomposition import PCA
 
 from csv_merger import combine_csvs
 
@@ -73,13 +75,24 @@ def PCA_zensus_data(
     return df_zensus_filtered_city_source, df_important_features
 
 
-def combine_PCA_datasets(df_zensus, str_city):
+def combine_PCA_datasets(df_zensus, str_city, str_path):
     """
     returns the combination of zensus data for city and all sources based on PCA
     """
+
+    ls_files_gpkg = [
+        file
+        for file in os.listdir(str_path)
+        if file.endswith(".gpkg") and str_city in file
+    ]
+
+    zensus_grid = gpd.read_file(os.path.join(str_path, ls_files_gpkg[0]))
+
     ls_zensus_sources = df_zensus["zensus_source"].unique()
 
     ls_pca_cleaned_zensus_data_city = []
+
+    # Filter original zensus Dataframe by only looking at the columns that are relevant due to the PCA
 
     for source in ls_zensus_sources:
         (
@@ -100,12 +113,17 @@ def combine_PCA_datasets(df_zensus, str_city):
 
         ls_pca_cleaned_zensus_data_city.append(df_zensus_filtered_city_source)
 
+    # combine with geodata
+
     df_cleaned = ft.reduce(
         lambda left, right: pd.merge(left, right, on=["City", "Grid_Code"]),
         ls_pca_cleaned_zensus_data_city,
     )
 
-    return df_cleaned
+    idx_column = "Grid_Code"
+    zensus_grid = zensus_grid.merge(df_cleaned, on=idx_column, how="inner")
+
+    return zensus_grid
 
 
 if __name__ == "__main__":
@@ -113,8 +131,9 @@ if __name__ == "__main__":
     path_zensus = os.path.join(main_path, "res", "data", "DLR", "2 Zensus")
     df_zensus = combine_csvs(str_path=path_zensus)
 
-    df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin")
-    df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen")
-    df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden")
-    df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt")
-    df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln")
+    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt", "Köln"]
+    """for city in cities:
+        df_zensus = combine_PCA_datasets(df_zensus, city)"""
+    df_zensus = combine_PCA_datasets(
+        df_zensus=df_zensus, str_city=cities[0], str_path=path_zensus
+    )
