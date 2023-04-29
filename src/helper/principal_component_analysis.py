@@ -8,7 +8,7 @@ import functools as ft
 from sklearn import preprocessing
 from sklearn.decomposition import PCA
 
-from csv_merger import combine_csvs
+from helper.csv_merger import combine_csvs
 
 
 def PCA_zensus_data(
