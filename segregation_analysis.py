@@ -5,5 +5,3 @@ import matplotlib.pyplot as plt
 
 #from pysal.lib import weights  
 import segregation as seg
-
-
