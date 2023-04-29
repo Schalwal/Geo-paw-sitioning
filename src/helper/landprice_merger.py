@@ -4,8 +4,8 @@ import pandas as pd
 os.environ["USE_PYGEOS"] = "0"
 import geopandas as gpd
 
-from csv_merger import combine_csvs
-from principal_component_analysis import combine_PCA_datasets
+from helper.csv_merger import combine_csvs
+from helper.principal_component_analysis import combine_PCA_datasets
 
 
 def combine_landprice_with_geodata(
