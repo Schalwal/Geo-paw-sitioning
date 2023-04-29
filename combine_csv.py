@@ -106,6 +106,7 @@ def PCA_zensus_data(df_zensus, str_city, str_zensus_source):
 def combine_PCA_datasets(df_zensus, str_city, str_path):
 
     """
+    read the combindes zensus Dataframe and apply from function PCA_zensus_data and combine it with the geopandas information
 
     """
     
@@ -138,6 +139,20 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
 
     return zensus_grid
 
+def combine_landprice_with_geodata(df_landprice, str_city, str_path):
+
+    os.chdir(str_path)
+
+    ls_files_gpkg = [element for element in glob.glob('*.{}'.format("gpkg")) if str_city in element]
+
+    price_grid = gpd.read_file(ls_files_gpkg[0])
+
+    df_land_prices_city = df_landprice[df_landprice["City_Name"] == str_city].reset_index(drop = True)
+
+    price_grid = price_grid.merge(df_land_prices_city, on = ["Neighborhood_FID", "Land_Value", "Area_Count", "City_Name"], how = "inner")
+
+    return price_grid
+
 if __name__ == "__main__":
     main_path = os.getcwd()
     str_path_land_prices, df_land_prices = combine_csv(main_path + "/" +
@@ -146,6 +161,13 @@ if __name__ == "__main__":
     str_path_zensus, df_zensus = combine_csv(main_path + "/" +
         input("Please copy + paste path to zensus data: ").replace("\\", "/") # main_path + "/" +
     )
+
+
+df_landprices_berlin = combine_landprice_with_geodata(df_land_prices, "Berlin", str_path_land_prices)
+df_landprices_bremen = combine_landprice_with_geodata(df_land_prices, "Bremen", str_path_land_prices)
+df_landprices_dresden = combine_landprice_with_geodata(df_land_prices, "Dresden", str_path_land_prices)
+df_landprices_frankfurt = combine_landprice_with_geodata(df_land_prices, "Frankfurt", str_path_land_prices)
+df_landprices_koeln = combine_landprice_with_geodata(df_land_prices, "Köln", str_path_land_prices)
 
 df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin", str_path_zensus) 
 df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen", str_path_zensus) 
