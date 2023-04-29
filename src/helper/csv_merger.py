@@ -42,12 +42,18 @@ def combine_csvs(str_path: str) -> pd.DataFrame:
                 if column in df_categories_raw_row.values:
                     df_combined[column].iloc[i] += 1
 
+        df_combined["City_Name"] = df_combined["City_Name"].str.replace("Frankfurt am Main", "Frankfurt_am_Main")
+
         return df_combined.drop(columns=["Area_Types"])
 
     elif "Zensus" in str_path:
         for file in ls_files:
             df_temp = pd.read_csv(os.path.join(str_path, file), delimiter=";")
-            df_temp["City"] = file.split("_")[1].split(".")[0]
+            city_name = file.split("_")[1].split(".")[0]
+            if "Frankfurt" in city_name:
+                df_temp["City"] = "Frankfurt_am_Main"
+            else:
+                df_temp["City"] = file.split("_")[1].split(".")[0]
             df_temp["zensus_source"] = file.split("_")[-1].split(".")[0]
             ls_df.append(df_temp)
 
