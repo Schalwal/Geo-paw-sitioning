@@ -26,6 +26,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 .DS_Store
+cache/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -165,3 +166,4 @@ DLR/
 *.csv
 *.gpkg
 *.tif
+BORIS/
