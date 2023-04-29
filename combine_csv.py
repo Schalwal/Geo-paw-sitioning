@@ -45,7 +45,7 @@ def combine_csv(str_path):
                 if column in df_categories_raw_row.values:
                     df_combined[column].iloc[i] += 1
 
-        return df_combined.drop(columns = ["Area_Types"])
+        return str_path, df_combined.drop(columns = ["Area_Types"])
 
     elif "Zensus" in str_path:
 
@@ -56,7 +56,7 @@ def combine_csv(str_path):
             df_temp["zensus_source"] = file.split("_")[-1].split(".")[0]
             ls_df.append(df_temp)
 
-        return pd.concat(ls_df).drop(columns = ["Unnamed: 0"]).reset_index(drop = True)
+        return str_path, pd.concat(ls_df).drop(columns = ["Unnamed: 0"]).reset_index(drop = True)
     
     else:
 
@@ -103,7 +103,17 @@ def PCA_zensus_data(df_zensus, str_city, str_zensus_source):
     return df_zensus_filtered_city_source, df_important_features
 
 
-def combine_PCA_datasets(df_zensus, str_city):
+def combine_PCA_datasets(df_zensus, str_city, str_path):
+
+    """
+
+    """
+    
+    os.chdir(str_path)
+
+    ls_files_gpkg = [element for element in glob.glob('*.{}'.format("gpkg")) if str_city in element]
+
+    zensus_grid = gpd.read_file(ls_files_gpkg[0])
 
     ls_zensus_sources = df_zensus["zensus_source"].unique()
 
@@ -123,23 +133,25 @@ def combine_PCA_datasets(df_zensus, str_city):
     
     df_cleaned = ft.reduce(lambda left, right: pd.merge(left, right, on = ['City', 'Grid_Code']), ls_pca_cleaned_zensus_data_city)
 
-    return df_cleaned
+    idx_column = "Grid_Code"
+    zensus_grid = zensus_grid.merge(df_cleaned, on = idx_column, how = "inner") 
 
+    return zensus_grid
 
 if __name__ == "__main__":
     main_path = os.getcwd()
-    df_land_prices = combine_csv(main_path + "/" +
+    str_path_land_prices, df_land_prices = combine_csv(main_path + "/" +
         input("Please copy + paste path to land prices: ").replace("\\", "/") # main_path + "/" +
     )
-    df_zensus = combine_csv(main_path + "/" +
+    str_path_zensus, df_zensus = combine_csv(main_path + "/" +
         input("Please copy + paste path to zensus data: ").replace("\\", "/") # main_path + "/" +
     )
 
-    df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin") 
-    df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen") 
-    df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden") 
-    df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt") 
-    df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln")
+df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin", str_path_zensus) 
+df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen", str_path_zensus) 
+df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden", str_path_zensus) 
+df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt", str_path_zensus) 
+df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln", str_path_zensus)
 
 #    df_land_prices.to_csv(main_path + "/res/data/land_prices.csv")
 #    df_zensus.to_csv(main_path + "/res/data/zensus.csv")
