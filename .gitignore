@@ -162,3 +162,14 @@ cython_debug/
 
 # Hackathon data
 DLRdata/
+*.shp
+*.csv
+*.tif
+*.dbf
+*.prf
+*.gpkg
+*.cpg
+*.sbx
+*.shx
+*.prj
+*.sbn
