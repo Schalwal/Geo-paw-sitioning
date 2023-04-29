@@ -41,7 +41,7 @@ def combine_landprice_with_geodata(
         how="inner",
     )
 
-    return price_grid
+    return price_grid.drop(columns = ["Area_Types"])
 
 
 def landprice_neighborhood_merger(
