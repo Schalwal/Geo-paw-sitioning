@@ -163,3 +163,5 @@ cython_debug/
 # Hackathon data
 DLRdata/
 *.csv
+*.gpkg
+*.tif
