@@ -86,8 +86,6 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
         if file.endswith(".gpkg") and str_city in file
     ]
 
-
-
     zensus_grid = gpd.read_file(os.path.join(str_path, ls_files_gpkg[0]))
 
     ls_zensus_sources = df_zensus["zensus_source"].unique()
