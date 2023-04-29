@@ -68,7 +68,7 @@ if __name__ == "__main__":
     osm_result = osm_result.reset_index(drop=False).rename(
         columns={"index": "Neighborhood_Name"}
     )
-    city_ammenities = merge_osm_raster(
+    city_distances = merge_osm_raster(
         gdf_osm=osm_result, gdf_city=load_data_city(city)
     )
     et = time.time()

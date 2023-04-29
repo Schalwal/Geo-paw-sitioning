@@ -56,7 +56,7 @@ def get_df_count_per_nbh(city, amenities_lst):
                 else 0
             )
 
-        # print(f'{nbh_name} done')
+        print(f'{nbh_name} done')
 
     return return_df
 
