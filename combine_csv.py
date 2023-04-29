@@ -147,11 +147,11 @@ if __name__ == "__main__":
         input("Please copy + paste path to zensus data: ").replace("\\", "/") # main_path + "/" +
     )
 
-df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin", str_path_zensus) 
-df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen", str_path_zensus) 
-df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden", str_path_zensus) 
-df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt", str_path_zensus) 
-df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln", str_path_zensus)
+    df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin", str_path_zensus) 
+    df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen", str_path_zensus) 
+    df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden", str_path_zensus) 
+    df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt", str_path_zensus) 
+    df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln", str_path_zensus)
 
 #    df_land_prices.to_csv(main_path + "/res/data/land_prices.csv")
 #    df_zensus.to_csv(main_path + "/res/data/zensus.csv")
