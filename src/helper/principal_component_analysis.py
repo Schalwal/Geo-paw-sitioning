@@ -86,6 +86,8 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
         if file.endswith(".gpkg") and str_city in file
     ]
 
+
+
     zensus_grid = gpd.read_file(os.path.join(str_path, ls_files_gpkg[0]))
 
     ls_zensus_sources = df_zensus["zensus_source"].unique()
@@ -131,7 +133,7 @@ if __name__ == "__main__":
     path_zensus = os.path.join(main_path, "res", "data", "DLR", "2 Zensus")
     df_zensus = combine_csvs(str_path=path_zensus)
 
-    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt", "Köln"]
+    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt_am_Main", "Köln"]
     """for city in cities:
         df_zensus = combine_PCA_datasets(df_zensus, city)"""
     df_zensus = combine_PCA_datasets(

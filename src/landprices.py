@@ -44,5 +44,5 @@ def load_data_city(str_city: str) -> gpd.GeoDataFrame:
 
 
 if __name__ == "__main__":
-    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt", "Köln"]
+    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt_am_Main", "Köln"]
     result = load_data_city(cities[0])

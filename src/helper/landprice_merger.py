@@ -96,7 +96,7 @@ if __name__ == "__main__":
     path_land = os.path.join(main_path, "res", "data", "DLR", "1 Land Prices")
     df_land_prices = combine_csvs(str_path=path_land)
 
-    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt", "Köln"]
+    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt_am_Main", "Köln"]
     """for city in cities:
         df_landprices = combine_landprice_with_geodata(df_land_prices, city, path_land)"""
     gdf_landprices = combine_landprice_with_geodata(
