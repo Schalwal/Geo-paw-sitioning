@@ -37,10 +37,14 @@ def get_path_length_per_nbh(city, network_types):
 
 def get_edge_length_for_type(city, nbh_name, network_type):
     neighborhood = city.loc[city.Neighborhood_Name == nbh_name]
-    G = ox.graph_from_polygon(neighborhood.geometry.iloc[0], network_type = network_type, simplify = True)
-    edges = ox.graph_to_gdfs(G, nodes=False, edges=True)
+    try:
+        G = ox.graph_from_polygon(neighborhood.geometry.iloc[0], network_type = network_type, simplify = True)
+        edges = ox.graph_to_gdfs(G, nodes=False, edges=True)
+        return edges['length'].sum()
+    except ValueError as e:
+        print(e)
+        return 0
 
-    return edges['length'].sum()
 
 
 def merge_osm_raster(
@@ -57,7 +61,9 @@ def merge_osm_raster(
 if __name__ == "__main__":
     # return a data frame with neighborhood as cols and amenity as row
     network_types = ['drive', 'bike', 'walk', 'drive_service', 'all', 'all_private']
-    city = "Berlin"
+    city = "Bremen"
+    import time
+    st = time.time()
     osm_result = get_total_length_for_each_nbh(city, "res/data/DLR/3 Neighborhoods", network_types).T
     osm_result = osm_result.reset_index(drop=False).rename(
         columns={"index": "Neighborhood_Name"}
@@ -65,6 +71,8 @@ if __name__ == "__main__":
     city_ammenities = merge_osm_raster(
         gdf_osm=osm_result, gdf_city=load_data_city(city)
     )
+    et = time.time()
+    print('DURATION FOR LOADING: ', et-st)
 
     
 

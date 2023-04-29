@@ -16,7 +16,12 @@ from landprices import load_data_city
 
 
 def get_count_nbh(
-    city_name, neighborhood_path, amenities_lst=["restaurant", "cafe", "school"]
+    city_name,
+    neighborhood_path,
+    amenities_lst=["restaurant", "cafe", "school", "administration", "advertising",
+                   "archive", "bench", "ev charging", "financial advice", "gym", "hotel", "park",
+                   "library", "refugee housing", "student accommodation", "nursery", "preschool",
+                   "public building", "shop", "sport school", "hospital"]
 ):
     """
     return df with occurence for each amenity in each neighborhood and read in file
