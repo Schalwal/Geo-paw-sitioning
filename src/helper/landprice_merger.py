@@ -68,7 +68,7 @@ def landprice_neighborhood_merger(
         pd.merge(
             left=gdf_landprice,
             right=gdf_neighborhoods[
-                ["Neighborhood_FID", "Neighborhood_Name", "District_Name"]
+                ["Neighborhood_FID", "Neighborhood_Name"]#, "District_Name"]
             ],
         )
     )
