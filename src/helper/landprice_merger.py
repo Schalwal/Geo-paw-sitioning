@@ -37,9 +37,11 @@ def combine_landprice_with_geodata(
 
     price_grid = price_grid.merge(
         df_land_prices_city,
-        on=["Neighborhood_FID", "Land_Value", "Area_Count", "City_Name"],
+        on=["Neighborhood_FID", "Land_Value", "Area_Count"],
         how="inner",
     )
+
+    price_grid = price_grid.drop(columns = ["City_Name_x"]).rename(columns = {"City_Name_y" : "City_Name"})
 
     return price_grid.drop(columns = ["Area_Types"])
 

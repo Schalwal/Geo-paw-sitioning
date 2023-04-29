@@ -42,6 +42,8 @@ def combine_csvs(str_path: str) -> pd.DataFrame:
                 if column in df_categories_raw_row.values:
                     df_combined[column].iloc[i] += 1
 
+        df_combined["City_Name"] = df_combined["City_Name"].str.replace("Frankfurt am Main", "Frankfurt_am_Main")
+
         return df_combined.drop(columns=["Area_Types"])
 
     elif "Zensus" in str_path:
