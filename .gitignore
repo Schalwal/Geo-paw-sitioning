@@ -164,4 +164,7 @@ cython_debug/
 #.idea/
 
 # Hackathon data
-DLRdata/
+DLR/
+*.csv
+*.gpkg
+*.tif
