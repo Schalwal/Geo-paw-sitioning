@@ -6,7 +6,7 @@ import glob
 import os
 import numpy as np
 import functools as ft
-
+import geopandas as gpd
 
 pd.options.mode.chained_assignment = None
 
@@ -135,11 +135,12 @@ if __name__ == "__main__":
         input("Please copy + paste path to zensus data: ").replace("\\", "/") # main_path + "/" +
     )
 
+    df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin") 
+    df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen") 
+    df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden") 
+    df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt") 
+    df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln")
+
+
 #    df_land_prices.to_csv(main_path + "/res/data/land_prices.csv")
 #    df_zensus.to_csv(main_path + "/res/data/zensus.csv")
-
-#df_zensus_berlin = combine_PCA_datasets(df_zensus, "Berlin") 
-#df_zensus_bremen = combine_PCA_datasets(df_zensus, "Bremen") 
-#df_zensus_dresden = combine_PCA_datasets(df_zensus, "Dresden") 
-#df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt") 
-#df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln")
