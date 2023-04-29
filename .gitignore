@@ -162,11 +162,4 @@ cython_debug/
 
 # Hackathon data
 DLRdata/
-*1 Land Prices*
-*2 Zensus*
-*3 Neighborhoods*
-*4 Buildings*
-*5 OSM*
-*6 Sentinel*
-*7 WorldCover*
-
+*.csv
