@@ -141,6 +141,5 @@ if __name__ == "__main__":
     df_zensus_frankfurt = combine_PCA_datasets(df_zensus, "Frankfurt") 
     df_zensus_koeln = combine_PCA_datasets(df_zensus, "Köln")
 
-
 #    df_land_prices.to_csv(main_path + "/res/data/land_prices.csv")
 #    df_zensus.to_csv(main_path + "/res/data/zensus.csv")
