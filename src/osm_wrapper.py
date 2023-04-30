@@ -4,6 +4,10 @@ import landprices
 
 def osm_wrapper():
 
+    """
+    automatiaclly wrap osm_wrapper
+    """
+
     from time import time
 
     amenities_lst=["restaurant", "cafe", "school", "administration", "advertising",

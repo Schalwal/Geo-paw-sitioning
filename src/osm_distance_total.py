@@ -13,6 +13,9 @@ from landprices import load_data_city
 
 
 def get_total_length_for_each_nbh(city_name, neighborhood_path, network_types):
+    """
+    wrapper to get count data frame and automatically load data
+    """
 
     city = gpd.read_file(f'{neighborhood_path}/Neighborhoods_{city_name}.gpkg')
     city = city.to_crs(epsg = 4326) # get geometry encoding right
@@ -21,14 +24,17 @@ def get_total_length_for_each_nbh(city_name, neighborhood_path, network_types):
 
 
 def get_path_length_per_nbh(city, network_types):
+    """
+    get a data frame for the edge length with the neighborhood names as columns and network type as rows
+    """
     neighboorhood_names = city.Neighborhood_Name.values
-    return_df =  pd.DataFrame(data=np.nan, index=network_types, columns=neighboorhood_names)
+    return_df =  pd.DataFrame(data=np.nan, index=network_types, columns=neighboorhood_names) # create empty df
 
     for nbh_name in neighboorhood_names:
 
         for network_type in network_types:
     
-            # .. insert count of occurences
+            # insert edge length for each neighborhood and network type
             return_df.loc[network_type, nbh_name] = get_edge_length_for_type(city, nbh_name, network_type)
 
         print(f'{nbh_name} done')
@@ -36,6 +42,9 @@ def get_path_length_per_nbh(city, network_types):
     return return_df
 
 def get_edge_length_for_type(city, nbh_name, network_type):
+    """
+    get edge_length for a specific network_type and neighborhood
+    """
     neighborhood = city.loc[city.Neighborhood_Name == nbh_name]
     try:
         G = ox.graph_from_polygon(neighborhood.geometry.iloc[0], network_type = network_type, simplify = True)
