@@ -41,6 +41,13 @@ The linear model for the city of Berlin has an R² of 0.678.
 
 The results are presented in a Streamlit App that allow explorative geospatial data with included features for the cities of Berlin, Bremen, Dresden, Frankfurt and Cologne. Additionally it shows the overwhelming results from the Random Forest Regressor as Machine Learning tool as well as the results from the trained linear model.
 
+## Model execution
+Please run
+```
+python challenge_evaluation/model.py
+```
+from within the directory "Geo-paw-sitioning".
+
 
 
 
