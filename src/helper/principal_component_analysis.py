@@ -8,7 +8,7 @@ import functools as ft
 from sklearn import preprocessing
 from sklearn.decomposition import PCA
 
-from csv_merger import combine_csvs
+from helper.csv_merger import combine_csvs
 
 
 def PCA_zensus_data(
@@ -85,6 +85,7 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
         for file in os.listdir(str_path)
         if file.endswith(".gpkg") and str_city in file
     ]
+    
 
     zensus_grid = gpd.read_file(os.path.join(str_path, ls_files_gpkg[0]))
 
@@ -123,7 +124,7 @@ def combine_PCA_datasets(df_zensus, str_city, str_path):
     idx_column = "Grid_Code"
     zensus_grid = zensus_grid.merge(df_cleaned, on=idx_column, how="inner")
 
-    return zensus_grid
+    return zensus_grid, important_features_city_source
 
 
 if __name__ == "__main__":
@@ -131,9 +132,9 @@ if __name__ == "__main__":
     path_zensus = os.path.join(main_path, "res", "data", "DLR", "2 Zensus")
     df_zensus = combine_csvs(str_path=path_zensus)
 
-    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt", "Köln"]
+    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt_am_Main", "Köln"]
     """for city in cities:
         df_zensus = combine_PCA_datasets(df_zensus, city)"""
-    df_zensus = combine_PCA_datasets(
+    df_zensus, important_features_city_source = combine_PCA_datasets(
         df_zensus=df_zensus, str_city=cities[0], str_path=path_zensus
     )
