@@ -24,7 +24,7 @@ def load_data_city(str_city: str) -> gpd.GeoDataFrame:
 
     df_zensus = combine_csvs(str_path=path_zensus)
 
-    gdf_zensus = combine_PCA_datasets(
+    gdf_zensus, important_features_city_source = combine_PCA_datasets(
         df_zensus=df_zensus, str_city=str_city, str_path=path_zensus
     )
 
