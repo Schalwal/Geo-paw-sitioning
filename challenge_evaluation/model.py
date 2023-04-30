@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
     df_imp_features = random_forest_regressor_features(df_PCA_features=df_features)
 
-    # please use this data
+    # please use this data for your own model
     X, y = data_preparation(df_PCA_features=df_features, df_RF_features=df_imp_features)
 
     # train-test-split here #
