@@ -37,11 +37,13 @@ def combine_landprice_with_geodata(
 
     price_grid = price_grid.merge(
         df_land_prices_city,
-        on=["Neighborhood_FID", "Land_Value", "Area_Count", "City_Name"],
+        on=["Neighborhood_FID", "Land_Value", "Area_Count"],
         how="inner",
     )
 
-    return price_grid
+    price_grid = price_grid.drop(columns = ["City_Name_x"]).rename(columns = {"City_Name_y" : "City_Name"})
+
+    return price_grid.drop(columns = ["Area_Types"])
 
 
 def landprice_neighborhood_merger(
@@ -68,7 +70,7 @@ def landprice_neighborhood_merger(
         pd.merge(
             left=gdf_landprice,
             right=gdf_neighborhoods[
-                ["Neighborhood_FID", "Neighborhood_Name", "District_Name"]
+                ["Neighborhood_FID", "Neighborhood_Name"]#, "District_Name"]
             ],
         )
     )
@@ -96,7 +98,7 @@ if __name__ == "__main__":
     path_land = os.path.join(main_path, "res", "data", "DLR", "1 Land Prices")
     df_land_prices = combine_csvs(str_path=path_land)
 
-    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt", "Köln"]
+    cities = ["Berlin", "Bremen", "Dresden", "Frankfurt_am_Main", "Köln"]
     """for city in cities:
         df_landprices = combine_landprice_with_geodata(df_land_prices, city, path_land)"""
     gdf_landprices = combine_landprice_with_geodata(
