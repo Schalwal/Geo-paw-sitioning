@@ -110,7 +110,7 @@ st.sidebar.image(image, caption='Cat')
 if city_choice2 == 'Berlin':
     st.pyplot(fig_coeff_berlin)
     #image_reg = Image.open('D:/GitHub/Geo-paw-sitioning/res/data/Berlin_reg_results.png')
-    image_reg = Image.open('/../res/data/Berlin_reg_results.png')
+    image_reg = Image.open('../res/data/Berlin_reg_results.png')
     st.image(image_reg)  
 
 if city_choice2 == 'Bremen':
