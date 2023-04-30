@@ -7,8 +7,10 @@ import geopandas as gpd
 import folium
 from streamlit_folium import st_folium, folium_static
 from shapely import wkt
+from PIL import Image
+import random
 
-# streamlit run Start.py
+# streamlit run Exploration.py
 
 st.set_page_config(page_title="Geo-'Paw'-Sitioning", 
                    page_icon=None, 
@@ -18,16 +20,15 @@ st.set_page_config(page_title="Geo-'Paw'-Sitioning",
 
 @st.cache_data
 def read_features(city):
-    df = pd.read_csv("D:/GitHub/Geo-paw-sitioning/res/data/" + "land_prices.csv")
-    #df = pd.read_csv("D:/GitHub/Geo-paw-sitioning/res/data/DLR/1 Land Prices/Land_Prices_Neighborhood_" + city + ".csv", sep=";")
-    #df = df.drop(columns=['Area_Count',"geometry", "Unnamed: 0", "Neighborhood_Name", "District_Name", "City_Code", "City_Name"])
+    #df = pd.read_csv("D:/GitHub/Geo-paw-sitioning/res/data/" + city + "_plotting.csv")
+    df = pd.read_csv("../res/data/" + city + "_plotting.csv")
     df = df.drop(columns=["Unnamed: 0"])
     return df 
 
 @st.cache_data
 def read_geo(city):
-    df_geo = gpd.read_file("D:/GitHub/Geo-paw-sitioning/res/data/DLR/1 Land Prices/Land_Prices_Neighborhood_" + city + ".gpkg")
-    #df_geo = df_geo.drop(columns = ['Area_Types', 'Area_Count', 'City_Name'])
+    #df_geo = gpd.read_file("D:/GitHub/Geo-paw-sitioning/res/data/DLR/1 Land Prices/Land_Prices_Neighborhood_" + city + ".gpkg")
+    df_geo = gpd.read_file("../res/data/DLR/1 Land Prices/Land_Prices_Neighborhood_" + city + ".gpkg")
     return df_geo
 
 @st.cache_data
@@ -47,15 +48,14 @@ def create_map(city, features):
         width = 1200, 
         height = 600, 
         legend = False,
-        tooltip = False
+        tooltip = True
     )
 
     #if(len(features) == 0):
     #    return m    
     for feature in features:
         m = df_geo_merged.explore(m = m, name=feature,
-                                column = feature, scheme = "quantiles", cmap = "RdYlBu_r", legend = False, 
-                                tooltip_kwds = {"labels": False})   
+                                column = feature, scheme = "quantiles", cmap = "RdYlBu_r", legend = False, tooltip = True)   
     
     return m
 
@@ -73,6 +73,12 @@ features = st.sidebar.multiselect(
     set(read_features(city_choice).columns) - set(["Neighborhood_FID", "Land_Value"])
     #["v1", "v2", "v3"]
 )
+
+#image_paths = os.listdir("D:/GitHub/Geo-paw-sitioning/res/streamlit/images/")
+#image = Image.open('D:/GitHub/Geo-paw-sitioning/res/streamlit/images/' + image_paths[random.randint(0, len(image_paths) - 1)])
+image_paths = os.listdir("../res/streamlit/images/")
+image = Image.open('../res/streamlit/images/' + image_paths[random.randint(0, len(image_paths) - 1)])
+st.sidebar.image(image, caption='Cat')
 
 left_column, right_column = st.columns([4,1])
 
