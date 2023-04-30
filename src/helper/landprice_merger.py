@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
     path_zensus = os.path.join(main_path, "res", "data", "DLR", "2 Zensus")
     df_zensus = combine_csvs(str_path=path_zensus)
-    gdf_zensus = combine_PCA_datasets(
+    gdf_zensus, important_features_city_source = combine_PCA_datasets(
         df_zensus=df_zensus, str_city=cities[0], str_path=path_zensus
     )
 
