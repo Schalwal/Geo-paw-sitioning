@@ -14,7 +14,7 @@ if __name__ == "__main__":
                    "library", "refugee housing", "student accommodation", "nursery", "preschool",
                    "public building", "shop", "sport school", "hospital"]
     network_types = ['drive', 'bike', 'walk', 'drive_service', 'all', 'all_private']
-    city = "Bremen"
+    city = "Berlin"
  
     st = time()
 
@@ -42,3 +42,5 @@ if __name__ == "__main__":
     )
     et = time()
     print('DONE! after ', (et-st)/60, 'minutes until now.')
+
+    merged_df.to_csv(f'res/{city}.csv')
