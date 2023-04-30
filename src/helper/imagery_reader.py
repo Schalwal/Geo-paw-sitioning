@@ -1,22 +1,19 @@
-from rasterio.plot import show
 import rasterio
-from rasterio.plot import show_hist
+from rasterio.plot import show
+import rasterio.mask
+import fiona
 
 
-
-def f(p: str):
-    """with rasterio.open(p) as image:
-        image_array = image.read()
-    show(image_array)"""
-    ds = rasterio.open(p)
-    show((ds, 1), cmap="Greens")
-    """show_hist(ds, bins=50, lw=0.0, stacked=False, alpha=0.3,
-      histtype='stepfilled', title="Histogram")"""
+def f(p: str, p2: str):
+    raster = rasterio.open(p)
+    show((raster, 3), cmap="Reds", title=p.rsplit(".tif")[0].rsplit("_")[1])
 
 
 if __name__ == "__main__":
     cities = ["Berlin", "Bremen", "Dresden", "Frankfurt_am_Main", "Köln"]
     for city in cities:
         p = f"res/data/DLR/6 Sentinel/Sentinel_{city}.tif"
+        # p = f"res/data/DLR/7 WorldCover/WorldCover_{city}.tif"
+        p2 = f"res/data/DLR/3 Neighborhoods/Neighborhoods_{city}.gpkg"
         print(p)
-        df = f(p=p)
+        df = f(p=p, p2=p2)
